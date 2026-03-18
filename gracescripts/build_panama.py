@@ -12,13 +12,13 @@ import pandas as pd
     # ask Dr. Cunha about event PAN22E034 
     # start cleaning the La Palma data to match this data
 
-path = "/home/gfinger/database_project/"
-datafolder= "Panama2021/"
-csv_files= ["Panama2021_EventData", "Panama2021_SpecimenData", "Panama2021_DNAextractions","Panama2021_GenomicLibraries"]
+path = "/home/gfinger/specimen-database/"
+datafolder= "Panama2021-Main-Dataset/"
+csv_files= ["Panama2021-EventData", "Panama2021-SpecimenData", "Panama2021-DNAextractions","Panama2021-GenomicLibraries"]
 
 ##################################################
 ### CLEANING EVENT DF ###
-event_df = pd.read_csv(path + datafolder + "Panama2021_EventData.csv")
+event_df = pd.read_csv(path + datafolder + "Panama2021-EventData.csv")
 
 #PAN22E034 is missing from event_df
 '''
@@ -51,7 +51,7 @@ event_df= event_df.rename(columns={'notes': 'event_notes'})
 
 ##################################################
 # CLEANING SPECIMEN DF
-specimen_df = pd.read_csv(path + datafolder + "Panama2021_SpecimenData.csv")
+specimen_df = pd.read_csv(path + datafolder + "Panama2021-SpecimenData.csv")
 
 #removing unnecessary column
 specimen_df= specimen_df.drop(labels='Unnamed: 20',axis = 1)
@@ -66,7 +66,7 @@ specimen_df.loc[specimen_df['Voucher'].notnull(), 'museum'] = "Smithsonian"
 
 ##########################################
 ### CLEANING dna_df
-dna_df = pd.read_csv(path + datafolder+ "Panama2021_DNAextractions.csv")
+dna_df = pd.read_csv(path + datafolder+ "Panama2021-DNAextractions.csv")
 
 dna_df= dna_df.rename(columns={'Qubit_DNA_[ng/ul]':'Qubit_DNA_ng_ul', "Nanodrop_[ng/ul]":"Nanodrop_ng_ul", "Qubit : Nanodrop": "Qubit_Nanodrop","Nanodrop_260/280":"Nanodrop_260_280","Nanodrop_260/230":"Nanodrop_260_230"})
 
@@ -83,7 +83,7 @@ print("\nMissing event_codes (cause of error):")
 print(missing)'''
 ##################################################
 ### CLEANING EVENT DF ###
-libraries_df = pd.read_csv(path + datafolder + "Panama2021_GenomicLibraries.csv")
+libraries_df = pd.read_csv(path + datafolder + "Panama2021-GenomicLibraries.csv")
 libraries_df = libraries_df.rename(columns={'Qubit_DNA_[ng/ul]':'Qubit_DNA_ng_ul_lib','Qubit_lib_[ng/ul]':'Qubit_lib_ng_ul','IDT xGen UDI Primer Pair Well':'IDTxGen_UDI_PrimerPair_Well','Primer Name':'Primer_Name', 'i5 index': 'i5_index', 'i7 index': 'i7_index','[C]_nM_estimate':'C_nM_estimate','Qubit_size-selection_[ng/ul]': 'Qubit_size_selection_ng_ul'})
 
 #used this code chunk to make sure there are no lot_ids in dna_df that point to nothing in specimen_df

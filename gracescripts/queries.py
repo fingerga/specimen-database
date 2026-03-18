@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 
-path= "/home/gfinger/database_project/"
+path= "/home/gfinger/specimen-database/"
 db_name = "Panama.db"
 
 # writing queries...
