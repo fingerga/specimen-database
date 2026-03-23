@@ -100,6 +100,7 @@ specimen_clean = specimen_df.rename(
         "identification_by": "identification_by",
         "Voucher": "voucher",  # lowercase
         "SecondVoucherClip": "second_voucher_clip",
+        # need to add a column for location of sample in the lab
     }
 )
 
