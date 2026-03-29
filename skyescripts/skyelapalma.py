@@ -266,7 +266,6 @@ add_missing_column(cur, "SpecimenData", "class_name", "TEXT")
 add_missing_column(cur, "SpecimenData", "subclass", "TEXT")
 add_missing_column(cur, "SpecimenData", "uncertainty", "TEXT")
 add_missing_column(cur, "SpecimenData", "collected_by", "TEXT")
-add_missing_column(cur, "SpecimenData", "photos_underwater", "TEXT")
 
 add_missing_column(cur, "DNAExtractions", "extraction_suffix", "TEXT")
 add_missing_column(cur, "DNAExtractions", "clipping_notes", "TEXT")
@@ -295,7 +294,7 @@ specimen_clean.to_sql("SpecimenData", conn, if_exists="append", index=False)
 print(f"\nLoaded {len(specimen_clean)} rows into SpecimenData")
 
 # IMPORTANT: some Panama and La Palma extraction_ids conflict
-# Add prefix CAN23 to duplicate La Palma IDs and save in a new column
+# Add prefix LP- to duplicate La Palma IDs and save in a new column
 
 # get ALL extraction ids from DNAExtractions tab of database
 extraction_ids = set(
@@ -315,7 +314,7 @@ if conflicts.any():
     add_missing_column(cur, "DNAExtractions", "original_extraction_id", "TEXT")
     dna_clean["original_extraction_id"] = dna_clean["extraction_id"]
     dna_clean.loc[conflicts, "extraction_id"] = (
-        "CAN23-" + dna_clean.loc[conflicts, "extraction_id"]
+        "LP-" + dna_clean.loc[conflicts, "extraction_id"]
     )
 
 conn.commit()
