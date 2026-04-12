@@ -123,3 +123,7 @@ To run the Python script:
     python3 database-scripts/test_query1.py
 
 This query reports the voucher number, species, extraction date and concentration for samples that have a Qubit concentration greater than 100 ng/ul and have been depoited in a museum (if they have a voucher) The correct output for running this query is included under database-scripts/check_query2.csv
+
+
+## Generating Blank CSV Files
+To generate blank CSV files based on the column names for each table... (adding this soon -Grace)
