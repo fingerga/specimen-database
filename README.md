@@ -20,42 +20,10 @@ In your desired directory, run:
 
     git clone https://github.com/shiizue/specimen-database.git
 
-Then navigate into the project folder:
+## Building Initial Database (optional)
+A complete database file including data from the Panama 2021 dataset and La Palma 2023 dataset is included in the GitHub repo. The following two commands are included for transparency, or to rebuild the database file as needed.
 
-    cd specimen-database
-
----
-
-## Step 1: Build the Initial Database (Panama 2021)
-
-The database is structured according to the Panama2021 dataset (all files under Panama2021-Main-Dataset). To build the initial database, run the `TEST_panama_clean_load.py` script in the **TEST-database-scripts** folder:
-
-    python3 TEST-database-scripts/TEST_panama_clean_load.py
-
-After running this script, you should have a file called `TEST_cunha_invertebrate_specimens.db` and see a total of rows reported as:
-
-| Table | Expected rows |
-|---|---|
-| EventData | 33 |
-| SpecimenData | 1105 |
-| DNAExtractions | 782 |
-| GenomicLibraries | 11 |
-
-You should also see a new file appear at:
-
-    TEST-database-scripts/TEST_cunha_invertebrate_specimens.db
-
-> **Note:** It is important that the Panama script is loaded _before_ the La Palma script, as the latter depends on the former building the expected schema for the database.
-
----
-
-## Step 2: Add the La Palma 2023 Dataset
-
-After building the initial database, you can add the data from the La Palma dataset (all files under LaPalma2023-Main-Dataset) by running the `TEST_la_palma_clean_load.py` script:
-
-    python3 TEST-database-scripts/TEST_la_palma_clean_load.py
-
-There should be the following numbers reported for rows loaded into each table:
+The database is structured according to the Panama2021 dataset (all files under Panama2021-Main-Dataset). To build the initial database, run the panama_clean_load.py script in the database-scripts folder:
 
 | Table | Expected rows added |
 |---|---|
@@ -65,17 +33,63 @@ There should be the following numbers reported for rows loaded into each table:
 
 > **Important:** This script depends on the database created in Step 1. If you run it without completing Step 1 first, you will get an error.
 
----
+After building the initial database, you can add the data from the La Palma dataset (all files under LaPalma2023-Main-Dataset) by running the la_palma_clean_load.py script:
 
-## Accessing the Database
+    python3 database-scripts/la_palma_clean_load.py
 
-There are several ways to view and interact with the `.db` file directly:
+There should be the following numbers reported for rows loaded into each table: 16 in EventData, 86 in SpecimenData, and 34 in DNAExtractions.
 
-- **VSCode + SQLite Explorer extension** (recommended): This extension is open access and allows the user to view each table, edit entries, and execute queries and commands in a more intuitive way without using an intermediate Python script.
-- **DB Browser for SQLite**: a standalone desktop app available at [https://sqlitebrowser.org/](https://sqlitebrowser.org/) (NOT TESTED as of 4/13/26)
-- **Python scripts**: run SQL commands directly using `sqlite3` and `pandas`, as shown in the example query scripts
+## Accessing Database
+### Viewing Database
+There are various ways to view the database file (.db) file. We recommend using the VSQLite Explorer extension through VSCode. This extension is open access and allows the user to view each table, edit entries, and execute queries and commands in a more intuitive way without using an intermediate Python script.
 
----
+Other options include:
+* Running SQL commands through Python scripts
+* DB Browser for SQLite https://sqlitebrowser.org/ (not tested as of 4/8/2026)
+
+### Adding Single Rows and Columns
+**Adding Columns**
+
+To add a column to an existing table in SQL, the basic command format is:
+   
+    ALTER TABLE table_name ADD COLUMN column_name column_definition
+Where the column_definition is the type of data being stored in that column. For example, TEXT or ID. By default, each row will get NULL assigned as the value for the new column; optional is adding a NOT NULL statement to specify a different default value.
+
+For example, to add a column to the SpecimenData table called "common name", which would be stored as text, with 'intervertebrate species' as the default value:
+
+    ALTER TABLE SpecimenData ADD COLUMN common_name TEXT NOT NULL DEFAULT 'invertebrate species'
+
+**Adding Rows**
+To add an additional entry (row) to an existing table, the basic command format is:
+
+    INSERT INTO table_name (columnA, columnB, columnC) VALUES (value1, value2, value3)
+
+Multiple rows can be added by separating the lists of values by commas. Each new entry must have a unique primary key to be added, and if using a foreign key, that foreign key must previously exist in the database.
+
+For example, to add the following two rows...
+
+    lot_id  genus   species
+    dummy_01    Mesonychoteuthis    hamiltoni
+    dummy_02    Haemopis    sanguisuga
+
+to the SpecimenData table:
+
+    INSERT INTO SpecimenData (lot_id, genus, species) VALUES ('dummy_01', 'Mesonychoteuthis', 'hamiltoni'), ('dummy_02', 'Haemopis', 'sanguisuga')
+
+### Editing an Individual Entry
+Many GUIs for SQL databases enable users to simply click and type in a cell that they want to change, including VSQLite Explorer through VSCode. 
+
+To edit an existing entry using SQL, the basic format is:
+
+    UPDATE table_name SET columnA= value1, columnB = value 2 WHERE condition
+
+For example, to update the dummy_01 row above to include the common_name and collected_by columns:
+
+    UPDATE SpecimenData SET common_name = "Colossal Squid", collected_by= "LU Wolf" WHERE lot_id == "dummy_01"
+
+
+### Adding Additional Datasets
+**Documentation for verify_and_load.py goes HERE**
 
 ## Step 3: Run the Example Queries
 
@@ -243,6 +257,14 @@ This file is missing the required `extraction_id` column (the primary key for th
 ---
 ## Generating Blank CSV Files
 To generate blank CSV files based on the column names for each table... (adding this soon -Grace)
+In the directory "template_CSVs", there are blank CSVs created for the database as it was structured on 4/12/2026. This is to minimize the amount of manual column name edits users will have to make to input new CSV files into the existing database.
+
+To generate new blank CSV files based on the currenty column names for each table, run the script "get_blank_csvs.py"
+
+    python3 database-scripts/get_blank_csvs.py
+
+
+## Generating Blank CSV Files
 In the directory "template_CSVs", there are blank CSVs created for the database as it was structured on 4/12/2026. This is to minimize the amount of manual column name edits users will have to make to input new CSV files into the existing database.
 
 To generate new blank CSV files based on the currenty column names for each table, run the script "get_blank_csvs.py"
