@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 
-path= "database-scripts/"
+path= "TEST-database-scripts/"
 db_name = "cunha_invertebrate_specimens.db"
 
 query= """

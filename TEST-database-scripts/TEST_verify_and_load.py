@@ -7,7 +7,7 @@ import sys
 # STEP 0: CONFIGURATION
 # ===========================================================================
 
-db_path = "skyescripts/TEST_cunha_invertebrate_specimens.db"
+db_path = "TEST-database-scripts/TEST_cunha_invertebrate_specimens.db"
 
 # SCHEMA dictionary will be used to validate incoming table columns
 # keys are 1 of the 4 tables in the database (EventData, SpecimenData, DNAextractions, GenomicLibraries)
@@ -357,7 +357,7 @@ def validate(df, table_name, conn):
                 f"({len(orphan_rows)} affected row(s))"
             )
             # Save orphans to a csv for review
-            orphan_path = f"skyescripts/orphan_{table_name}_{fk_col}.csv"
+            orphan_path = f"scriptsTEST-database-scripts/orphan_{table_name}_{fk_col}.csv"
             orphan_rows.to_csv(orphan_path, index=False)
             warn(f"Orphan rows saved to '{orphan_path}' for review")
         else:
