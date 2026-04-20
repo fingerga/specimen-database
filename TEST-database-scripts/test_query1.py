@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 path= "TEST-database-scripts/"
-db_name = "cunha_invertebrate_specimens.db"
+db_name = "TEST_cunha_invertebrate_specimens.db"
 
 query= """
 SELECT species, COUNT(*) AS specimen_count
