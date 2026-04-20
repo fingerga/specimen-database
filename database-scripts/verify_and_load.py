@@ -63,6 +63,9 @@ SCHEMA = {
             "subclass",
             "uncertainty",
             "collected_by",
+            "museum",
+            "specimenlocation_id",
+            "specimenlocation_shelf",
         ],
     },
     "DNAExtractions": {
@@ -98,6 +101,9 @@ SCHEMA = {
             "blast_match_length",
             "blast_match_accession",
             "original_extraction_id",
+            "museum",
+            "specimenlocation_id",
+            "specimenlocation_shelf",
         ],
     },
     "GenomicLibraries": {
@@ -127,6 +133,10 @@ SCHEMA = {
             "insert_size",
             "concentration_nm_estimate",
             "data_target_gb",
+            "librarylocation_id",
+            "librarylocation_shelf",
+            "librarylocation_rack",
+            "librarylocation_box",
         ],
     },
 }
