@@ -23,7 +23,6 @@
 - TEMPLATE_SpecimenData.csv
 ## TEST-database-scripts
 - TEST_cunha_invertebrate_specimens.db Copy of database file specifically for testing
-- TEST_get_blank_csvs.py opy of template CSV generating file specifically for testing
 - test_query1.py Query script for testing
 - test_query2.py Query script for testing
 - TEST_verify_and_load.py Copy of verify and load script specifically for testing
